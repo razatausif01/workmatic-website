@@ -218,7 +218,7 @@ const leadForm = $("lead");
 if (leadForm) {
   leadForm.addEventListener("submit", async e => {
     e.preventDefault(); 
-    alert("Button dabaya gaya! Ab data bhej rahe hain..."); // TEST ALERT
+    alert("Button dabaya gaya! Ab data bhej rahe hain..."); 
 
     const name = $("f-name").value.trim();
     const contact = $("f-contact").value.trim();
@@ -239,7 +239,7 @@ if (leadForm) {
         body: JSON.stringify({ name: name, phone: contact, source: "website" }) 
       });
       console.log("Server Response:", response.status);
-      alert("Data bhej diya! Status: " + response.status); // TEST ALERT
+      alert("Data bhej diya! Status: " + response.status); 
     } catch (err) { 
       console.error("Fetch Error:", err); 
       alert("Error aaya: " + err.message);
@@ -250,7 +250,6 @@ if (leadForm) {
   });
 } else {
     console.error("Form id='lead' HTML mein nahi mila!");
-    alert("Error: Form nahi mila!");
 }
 </script>
 </body>
