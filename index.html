@@ -225,9 +225,17 @@ $("lead").addEventListener("submit", async e => {
   $("err").style.display = "none";
   if (API_URL) {
     try {
-      await fetch(API_URL , { method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone: contact, source: "website" }) });
-    } catch (err) { console.error("Lead not saved:", err); }
+      await fetch(API_URL, { 
+        method: "POST", 
+        headers: { 
+          "Content-Type": "application/json",
+          "tuzy-skip-warning": "1" 
+        },
+        body: JSON.stringify({ name, phone: contact, source: "website" }) 
+      });
+    } catch (err) { 
+      console.error("Lead not saved:", err); 
+    }
   }
   $("lead").style.display = "none";
   $("ok").style.display = "block";
