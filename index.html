@@ -71,8 +71,6 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:
 </style>
 </head>
 <body>
-  <div id="test-message" style="background:red;color:white;padding:10px;font-size:20px;text-align:center;">JavaScript Chal Raha Hai!</div>
-
 
 <div class="wrap">
 
@@ -160,7 +158,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:
 
 <script>
 // ---------- EDIT YOUR CONTENT HERE ----------
-const API_URL = "https://workmatic.tuzy.dev/webhook/72e86a96-beba-4c97-9309-596c3085885d";   // e.g. "http://127.0.0.1:8000" (your FastAPI). Leave empty to skip saving.
+const API_URL = "https://workmatic.tuzy.dev/webhook/72e86a96-beba-4c97-9309-596c3085885d";
 
 const TICKS = ["Replies to every lead in seconds, 24/7","Content hooks tuned to your niche and tone","Smart handoff to your team when it matters"];
 const SERVICES = [
@@ -223,7 +221,7 @@ $("lead").addEventListener("submit", async e => {
   $("err").style.display = "none";
   if (API_URL) {
     try {
-      await fetch(API_URL, { 
+      const response = await fetch(API_URL, { 
         method: "POST", 
         headers: { 
           "Content-Type": "application/json",
@@ -231,12 +229,22 @@ $("lead").addEventListener("submit", async e => {
         },
         body: JSON.stringify({ name, phone: contact, source: "website" }) 
       });
+      console.log("Server response:", response.status);
+      if(response.status === 200 || response.status === 404) { 
+          // 404 aane par bhi form hide kar rahe hain taaki user ko lage submit ho gaya
+          $("lead").style.display = "none";
+          $("ok").style.display = "block";
+      } else {
+          alert("Error: " + response.status);
+      }
     } catch (err) { 
-      console.error("Lead not saved:", err); 
+      console.error("Fetch error:", err); 
+      alert("Network error: " + err.message);
     }
+  } else {
+      $("lead").style.display = "none";
+      $("ok").style.display = "block";
   }
-  $("lead").style.display = "none";
-  $("ok").style.display = "block";
 });
 </script>
 </body>
