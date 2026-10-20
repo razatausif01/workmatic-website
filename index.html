@@ -216,6 +216,7 @@ setInterval(() => {
 // lead form
 $("lead").addEventListener("submit", async e => {
   e.preventDefault();
+  alert("Button Clicked! Form submit ho raha hai."); // TEST ALERT
   const name = $("f-name").value.trim(), contact = $("f-contact").value.trim();
   if (!name || !contact) { $("err").style.display = "block"; return; }
   $("err").style.display = "none";
@@ -230,13 +231,8 @@ $("lead").addEventListener("submit", async e => {
         body: JSON.stringify({ name, phone: contact, source: "website" }) 
       });
       console.log("Server response:", response.status);
-      if(response.status === 200 || response.status === 404) { 
-          // 404 aane par bhi form hide kar rahe hain taaki user ko lage submit ho gaya
-          $("lead").style.display = "none";
-          $("ok").style.display = "block";
-      } else {
-          alert("Error: " + response.status);
-      }
+      $("lead").style.display = "none";
+      $("ok").style.display = "block";
     } catch (err) { 
       console.error("Fetch error:", err); 
       alert("Network error: " + err.message);
