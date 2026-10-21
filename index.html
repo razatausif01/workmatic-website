@@ -236,7 +236,13 @@ if (leadForm) {
           "Content-Type": "application/json",
           "tuzy-skip-warning": "1" 
         },
-        body: JSON.stringify({ name: name, phone: contact, source: "website" }) 
+                body: JSON.stringify({ 
+            name: name, 
+            phone: contact, 
+            service: document.getElementById('f-svc').value, 
+            message: document.getElementById('f-msg').value, 
+            source: "website" 
+        }) 
       });
       console.log("Server Response:", response.status);
       alert("Data bhej diya! Status: " + response.status); 
