@@ -213,15 +213,17 @@ setInterval(() => {
   draw();
 }, 2200);
 
-// FORM SUBMIT LOGIC
+// FORM SUBMIT LOGIC - FINAL FIXED
 const leadForm = $("lead");
 if (leadForm) {
   leadForm.addEventListener("submit", async e => {
     e.preventDefault(); 
-    alert("Button dabaya gaya! Ab data bhej rahe hain..."); 
-
-    const name = $("f-name").value.trim();
-    const contact = $("f-contact").value.trim();
+    
+    // Safe value extraction
+    const name = $("f-name") ? $("f-name").value.trim() : "";
+    const contact = $("f-contact") ? $("f-contact").value.trim() : "";
+    const service = $("f-svc") ? $("f-svc").value : "";
+    const message = $("f-msg") ? $("f-msg").value : "";
     
     if (!name || !contact) { 
       if($("err")) $("err").style.display = "block"; 
@@ -236,11 +238,11 @@ if (leadForm) {
           "Content-Type": "application/json",
           "tuzy-skip-warning": "1" 
         },
-                body: JSON.stringify({ 
+        body: JSON.stringify({ 
             name: name, 
             phone: contact, 
-            service: document.getElementById('f-svc').value, 
-            message: document.getElementById('f-msg').value, 
+            service: service, 
+            message: message, 
             source: "website" 
         }) 
       });
