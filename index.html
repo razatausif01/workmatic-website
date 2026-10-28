@@ -236,11 +236,14 @@ if (leadForm) {
     btn.disabled = true;
 
     try {
+      // 1. ALERT: Data bhejne se pehle
+      alert("1. Form Submit hua, ab n8n ko bhej rahe hain...");
+
       const response = await fetch(API_URL, { 
         method: "POST", 
         headers: { 
           "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true" // <--- YEH LINE ADD KAR DI HAI
+          "ngrok-skip-browser-warning": "true"
         },
         body: JSON.stringify({ 
             name: name, 
@@ -251,17 +254,19 @@ if (leadForm) {
         }) 
       });
       
+      // 2. ALERT: n8n ka jawab aane ke baad
       if (response.ok) {
+          alert("2. N8N NE DATA RECEIVE KAR LIYA! Status: " + response.status);
           if($("lead")) $("lead").style.display = "none";
           if($("ok")) $("ok").style.display = "block";
       } else {
-          alert("Something went wrong. Please try again.");
+          alert("2. N8N MEIN ERROR! Status: " + response.status);
           btn.innerText = "Send my enquiry";
           btn.disabled = false;
       }
     } catch (err) { 
-      console.error("Fetch Error:", err); 
-      alert("Network error. Please try again.");
+      // 3. ALERT: Agar network fail ho jaye
+      alert("3. NETWORK ERROR! Data n8n tak nahi pahuncha. Error: " + err.message);
       btn.innerText = "Send my enquiry";
       btn.disabled = false;
     }
