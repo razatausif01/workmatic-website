@@ -83,7 +83,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:
 <div>
 <span class="pill">AI automation studio for growing businesses</span>
 <h1>We turn busywork into <span>automated growth.</span></h1>
-<p class="lead">Workmatic AI Studio builds AI systems that follow up with every lead, answer every customer and create content that gets noticed, so you can focus on closing deals and serving clients.</p>
+<p class="lead">Workmatic AI Studio builds AI systems that follow up with every lead, answer every customer and content that gets noticed, so you can focus on closing deals and serving clients.</p>
 <div class="ticks" id="ticks"></div>
 <div class="row" style="gap:14px"><a class="btn" href="#contact">Book a free consultation</a><a class="ghost" href="#services">See our services</a></div>
 </div>
@@ -158,7 +158,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:
 
 <script>
 // ---------- EDIT YOUR CONTENT HERE ----------
-const API_URL = "https://naming-oversold-thinner.ngrok-free.dev/webhook/website-lead";
+const API_URL = "https://workmatic.tuzy.dev/webhook/lead_capture";
 
 const TICKS = ["Replies to every lead in seconds, 24/7","Content hooks tuned to your niche and tone","Smart handoff to your team when it matters"];
 const SERVICES = [
@@ -242,8 +242,7 @@ if (leadForm) {
       const response = await fetch(API_URL, { 
         method: "POST", 
         headers: { 
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true"
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({ 
             name: name, 
