@@ -158,7 +158,6 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:
 
 <script>
 // ---------- EDIT YOUR CONTENT HERE ----------
-// Yahan apna naya ngrok URL dalein
 const API_URL = "https://naming-oversold-thinner.ngrok-free.dev/webhook/website-lead";
 
 const TICKS = ["Replies to every lead in seconds, 24/7","Content hooks tuned to your niche and tone","Smart handoff to your team when it matters"];
@@ -240,7 +239,8 @@ if (leadForm) {
       const response = await fetch(API_URL, { 
         method: "POST", 
         headers: { 
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true" // <--- YEH LINE ADD KAR DI HAI
         },
         body: JSON.stringify({ 
             name: name, 
