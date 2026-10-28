@@ -141,12 +141,12 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:
 </div>
 <div>
 <form id="lead" novalidate>
-<div><label for="f-name">Your name</label><input id="f-name" placeholder="e.g. Rahul Sharma"></div>
-<div><label for="f-contact">Phone or email</label><input id="f-contact" placeholder="How should we reach you?"></div>
+<div><label for="f-name">Your name</label><input id="f-name" placeholder="e.g. Rahul Sharma" required></div>
+<div><label for="f-contact">Phone or email</label><input id="f-contact" placeholder="How should we reach you?" required></div>
 <div><label for="f-svc">I'm interested in</label><select id="f-svc" name="service"><option>Lead follow-up agent</option><option>Business automation</option><option>Social media content hooks</option><option>Customer care agent</option><option>Not sure yet</option></select></div>
 <div><label for="f-msg">Tell us about your business</label><textarea id="f-msg" name="message" rows="3" placeholder="What would you like to automate?"></textarea></div>
 <div id="err">Please add your name and a phone or email.</div>
-<button class="btn" type="submit">Send my enquiry</button>
+<button class="btn" type="submit" id="submit-btn">Send my enquiry</button>
 </form>
 <div id="ok"><div class="sg" style="font-size:24px;margin-bottom:8px">Thank you!</div><div style="color:var(--muted);line-height:1.6">We've got your details and will reach out within one working day.</div></div>
 </div>
@@ -158,7 +158,8 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:
 
 <script>
 // ---------- EDIT YOUR CONTENT HERE ----------
-const API_URL = "https://workmatic.tuzy.dev/webhook/72e86a96-beba-4c97-9309-596c3085885d";
+// Yahan apna naya ngrok URL dalein
+const API_URL = "https://naming-oversold-thinner.ngrok-free.dev/webhook/website-lead";
 
 const TICKS = ["Replies to every lead in seconds, 24/7","Content hooks tuned to your niche and tone","Smart handoff to your team when it matters"];
 const SERVICES = [
@@ -219,24 +220,27 @@ if (leadForm) {
   leadForm.addEventListener("submit", async e => {
     e.preventDefault(); 
     
-    // Safe value extraction
     const name = $("f-name") ? $("f-name").value.trim() : "";
     const contact = $("f-contact") ? $("f-contact").value.trim() : "";
     const service = $("f-svc") ? $("f-svc").value : "";
     const message = $("f-msg") ? $("f-msg").value : "";
+    const errDiv = $("err");
+    const btn = $("submit-btn");
     
     if (!name || !contact) { 
-      if($("err")) $("err").style.display = "block"; 
+      if(errDiv) errDiv.style.display = "block"; 
       return; 
     }
-    if($("err")) $("err").style.display = "none";
+    if(errDiv) errDiv.style.display = "none";
+    
+    btn.innerText = "Sending...";
+    btn.disabled = true;
 
     try {
       const response = await fetch(API_URL, { 
         method: "POST", 
         headers: { 
-          "Content-Type": "application/json",
-          "tuzy-skip-warning": "1" 
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({ 
             name: name, 
@@ -246,18 +250,22 @@ if (leadForm) {
             source: "website" 
         }) 
       });
-      console.log("Server Response:", response.status);
-      alert("Data bhej diya! Status: " + response.status); 
+      
+      if (response.ok) {
+          if($("lead")) $("lead").style.display = "none";
+          if($("ok")) $("ok").style.display = "block";
+      } else {
+          alert("Something went wrong. Please try again.");
+          btn.innerText = "Send my enquiry";
+          btn.disabled = false;
+      }
     } catch (err) { 
       console.error("Fetch Error:", err); 
-      alert("Error aaya: " + err.message);
+      alert("Network error. Please try again.");
+      btn.innerText = "Send my enquiry";
+      btn.disabled = false;
     }
-    
-    if($("lead")) $("lead").style.display = "none";
-    if($("ok")) $("ok").style.display = "block";
   });
-} else {
-    console.error("Form id='lead' HTML mein nahi mila!");
 }
 </script>
 </body>
